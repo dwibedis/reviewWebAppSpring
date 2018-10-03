@@ -1,0 +1,40 @@
+.tagLine {
+	background-color: black;
+    font-family: cursive;
+    color: wheat;
+
+}
+.center {
+	text-align : center;
+	margin-block-start : 0px;
+	margin-block-end : 0px;
+}
+.right {
+	text-align : right;
+	margin-block-start : 0px;
+	margin-block-end : 0px;
+}
+.searchArea {
+	padding-block-start: 1%;
+    padding-left: 2%;
+    padding-block-end: 1%;
+}
+.searchBox {
+	line-height: 80px;
+    font-size: 20px;
+}
+.movieName {
+	font-style: oblique;
+    font-family: cursive;
+    font-size: -webkit-xxx-large;
+}
+.boxed {
+	border : 2px solid green;
+}
+.customerReview {
+	font-family: cursive;
+    font-size: larger;
+}
+.hidden {
+	display : none;
+}
