@@ -47,7 +47,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/submit", method = RequestMethod.GET)
-	public ModelAndView submit(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView submit(HttpServletRequest request, HttpServletResponse response) throws MovieReviewException {
 		ModelAndView modelAndView = new ModelAndView();
 		String movieName = request.getParameter(MovieReviewConstants.MOVIE_NAME_ATTRIBUTE);
 		Integer rating = Integer.parseInt(request.getParameter(MovieReviewConstants.RATING_ATTRIBUTE));

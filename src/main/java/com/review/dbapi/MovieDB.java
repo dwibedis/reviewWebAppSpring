@@ -1,9 +1,11 @@
 package com.review.dbapi;
 
-import java.sql.ResultSet;
+import java.util.List;
+
+import com.review.model.Review;
 
 /**
- * Interface for specifying actions implemented for interaction with DB.
+ * Specifying the methods implemented for interaction with data base.
  * 
  * @author satyad
  *
@@ -11,36 +13,50 @@ import java.sql.ResultSet;
 public interface MovieDB {
 
 	/**
+	 * Method reads the reviews of given movie ID from DB.
 	 * 
-	 * @param hashCode
-	 * @return
+	 * @param id movieID
+	 * @return the list of reviews of movie present in db and the list is empty if
+	 *         no reviews present.
 	 */
-	public ResultSet read(int hashCode);
+	public List<Review> readReviews(int id);
 
 	/**
+	 * Method reads the number of reviews from DB done by a given user for given
+	 * movie.
 	 * 
-	 * @param userName
-	 * @param hashCode
-	 * @return
+	 * @param user Name name of user
+	 * @param id   movie ID
+	 * @return integer count
 	 */
-	public ResultSet readCount(String userName, int hashCode);
+	public int readCount(String userName, int id);
 
 	/**
+	 * Method updates the entry corresponding to the given movie name and user name
+	 * in db.
 	 * 
-	 * @param id
-	 * @param userName
-	 * @param rating
-	 * @param movieName
+	 * @param id              movieID
+	 * @param userName        name of user
+	 * @param rating          rating of movie
+	 * @param reviewStatement movie review
 	 */
-	public void update(int id, String userName, int rating, String movieName);
+	public void update(int id, String userName, int rating, String reviewStatement);
 
 	/**
+	 * Method inserts a new entry to the db with the details provided.
 	 * 
-	 * @param id
-	 * @param userName
-	 * @param rating
-	 * @param movieName
+	 * @param id              movieID
+	 * @param userName        name of user.
+	 * @param rating          rating of movie.
+	 * @param reviewStatement movie review.
 	 */
 	public void insert(int id, String userName, int rating, String reviewStatement);
 
+	/**
+	 * Method deletes a particular entry corresponding to given movieID and user.
+	 * 
+	 * @param id       movieID
+	 * @param userName name of user
+	 */
+	public void delete(int id, String userName);
 }

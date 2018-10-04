@@ -1,22 +1,18 @@
 package com.review.dbapi;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.review.constants.MovieReviewConstants;
-import com.review.exception.MovieReviewException;
+import com.review.model.Review;
 
 /**
  * The Repository class interacting with DB.
@@ -27,19 +23,14 @@ import com.review.exception.MovieReviewException;
 @Repository
 public class MovieDBAPI implements MovieDB {
 
-	private static Connection connection;
-	private static Statement statement;
+	private static final String BEAN_CONFIG_FILE = "spring.xml";
+	private static final String DATASOURCE_BEAN_NAME = "dataSource";
+	private static final String USER_NAME = "sourceName";
+	private static final String RATING = "rating";
+	private static final String REVIEW_STATEMENT = "reviewStatement";
+
 	private static DataSource dataSource;
-
-	private JdbcTemplate jdbcTemplate = new JdbcTemplate();
-
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+	private static JdbcTemplate jdbcTemplate;
 
 	public static DataSource getDataSource() {
 		return dataSource;
@@ -50,66 +41,44 @@ public class MovieDBAPI implements MovieDB {
 	}
 
 	static {
-		ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-		dataSource = (DataSource) context.getBean("dataSource");
-		try {
-			connection = dataSource.getConnection();
-			statement = connection.createStatement();
-		} catch (SQLException e) {
-			new MovieReviewException("Error while setting up connection");
-		}
+		ApplicationContext context = new ClassPathXmlApplicationContext(BEAN_CONFIG_FILE);
+		dataSource = (DataSource) context.getBean(DATASOURCE_BEAN_NAME);
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public ResultSet read(int id) {
-		ResultSet resultSet = null;
-		try {
-			String query = String.format(MovieReviewConstants.SELECTION_QUERY_WITH_MOVIE_ID, id);
-			resultSet = statement.executeQuery(query);
-		} catch (Exception ex) {
-			new MovieReviewException(ex.getMessage());
+	public List<Review> readReviews(int id) {
+		String query = String.format(MovieReviewConstants.SELECTION_QUERY_WITH_MOVIE_ID, id);
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(query);
+		List<Review> reviews = new ArrayList<Review>();
+
+		for (Map<String, Object> row : rows) {
+			reviews.add(new Review((String) row.get(USER_NAME), (Integer) row.get(RATING),
+					(String) row.get(REVIEW_STATEMENT)));
 		}
 
-		return resultSet;
+		return reviews;
 	}
 
-	public ResultSet readCount(String userName, int id) {
-		ResultSet resultSet = null;
-		try {
-			String query = String.format(MovieReviewConstants.QUERY_LIST_COUNT_REVIEWER_BY_NAME_AND_MOVIE, id, userName);
-			resultSet = statement.executeQuery(query);
-		} catch (Exception e) {
-			new MovieReviewException(e.getMessage());
-		}
-		return resultSet;
+	public int readCount(String userName, int id) {
+		String query = String.format(MovieReviewConstants.QUERY_LIST_COUNT_REVIEWER_BY_NAME_AND_MOVIE, id, userName);
+		return jdbcTemplate.queryForInt(query);
 	}
 
 	public void update(int id, String userName, int rating, String reviewStatement) {
-		try {
-			String query = String.format(MovieReviewConstants.UPDATE_QUERY_WITH_ALL_VALUES, rating, reviewStatement, id,
-					userName);
-			statement.executeQuery(query);
-		} catch (SQLException ex) {
-			new MovieReviewException(ex.getMessage());
-		}
+		String query = String.format(MovieReviewConstants.UPDATE_QUERY_WITH_ALL_VALUES, rating, reviewStatement, id,
+				userName);
+		jdbcTemplate.update(query);
 	}
 
 	public void insert(int id, String userName, int rating, String reviewStatement) {
-		try {
-			String query = String.format(MovieReviewConstants.INSERT_QUERY_WITH_ALL_VALUES, id, userName, rating,
-					reviewStatement);
-			statement.executeQuery(query);
-		} catch (SQLException ex) {
-			new MovieReviewException(ex.getMessage());
-		}
+		String query = String.format(MovieReviewConstants.INSERT_QUERY_WITH_ALL_VALUES, id, userName, rating,
+				reviewStatement);
+		jdbcTemplate.update(query);
 	}
 
-	public void delete(int id, String sourceName) throws MovieReviewException {
-		try {
-			String query = String.format(MovieReviewConstants.DELETE_ROW, id, sourceName);
-			statement.executeQuery(query);
-		} catch (SQLException e) {
-			throw new MovieReviewException("Row Doesn't Exist");
-		}
+	public void delete(int id, String userName) {
+		String query = String.format(MovieReviewConstants.DELETE_ROW, id, userName);
+		jdbcTemplate.update(query);
 	}
 
 }

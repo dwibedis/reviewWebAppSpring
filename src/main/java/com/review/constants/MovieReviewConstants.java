@@ -20,10 +20,10 @@ public class MovieReviewConstants {
 
 	// query statements
 	public static final String SELECTION_QUERY_WITH_MOVIE_ID = "Select * from movie_review_db where movieID = %d order by rating desc";
-	public static final String INSERT_QUERY_WITH_ALL_VALUES = "Insert into movie_review_db values (%d, '%s', %d, '%s') returning movieID";
+	public static final String INSERT_QUERY_WITH_ALL_VALUES = "Insert into movie_review_db values (%d, '%s', %d, '%s') ";
 	public static final String QUERY_LIST_COUNT_REVIEWER_BY_NAME_AND_MOVIE = "Select count(sourceName) from movie_review_db where movieID = %d and sourceName = '%s'";
-	public static final String UPDATE_QUERY_WITH_ALL_VALUES = "Update movie_review_db SET rating = %d, reviewStatement = '%s' WHERE movieID = %d and sourceName = '%s' returning movieID";
-	public static final String DELETE_ROW = "DELETE from movie_review_db where movieID = %d and sourceName = '%s' returning null";
+	public static final String UPDATE_QUERY_WITH_ALL_VALUES = "Update movie_review_db SET rating = %d, reviewStatement = '%s' WHERE movieID = %d and sourceName = '%s'";
+	public static final String DELETE_ROW = "DELETE from movie_review_db where movieID = %d and sourceName = '%s'";
 
 	// regular expressions
 	public static final String SPACE = "\\s+";
