@@ -17,6 +17,9 @@ public class MovieReviewConstants {
 	public static final String USER_NAME = System.getProperty("user.name");
 	public static final String USER_NAME_ATTRIBUTE = "userName";
 	public static final String HOME = "/reviews";
+	public static final String IS_NEW_REVIEWER_ATTRIBUTE = "isNewReviewer";
+	public static final String ALERT_ATTRIBUTE = "alertStatus";
+	public static final String SEARCH_ATTRIBUTE = "searchQuery";
 
 	// query statements
 	public static final String SELECTION_QUERY_WITH_MOVIE_ID = "Select * from movie_review_db where movieID = %d order by rating desc";

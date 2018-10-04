@@ -26,15 +26,13 @@ public class MovieDBAPIHelper implements MovieDBHelper {
 
 		// Remove extra spaces before, after and between the words and replace with
 		// single space.
-		movieName = movieName.trim().replaceAll(" +", " ");
-		// TODO convert the movieName all into lower case and this is to be done after
-		// updating DB for present reviews.
-		List<Review> reviews = movieDB.readReviews(movieName.hashCode());
+		List<Review> reviews = movieDB.readReviews(processMovieName(movieName).hashCode());
 		return new Movie(movieName, reviews);
 	}
 
 	public boolean hasUserAlreadyReviewed(String userName, String movieName) throws MovieReviewException {
 
+		movieName = processMovieName(movieName);
 		int reviewCount = movieDB.readCount(userName, movieName.hashCode());
 		switch (reviewCount) {
 		case 0:
@@ -49,6 +47,8 @@ public class MovieDBAPIHelper implements MovieDBHelper {
 
 	public void update(String movieName, int rating, String reviewStatement, String userName)
 			throws MovieReviewException {
+		movieName = processMovieName(movieName);
+		reviewStatement = reviewStatement.replaceAll("'", "''");
 		if (hasUserAlreadyReviewed(userName, movieName)) {
 			movieDB.update(movieName.hashCode(), userName, rating, reviewStatement);
 		} else {
@@ -56,4 +56,7 @@ public class MovieDBAPIHelper implements MovieDBHelper {
 		}
 	}
 
+	private String processMovieName(String movieName) {
+		return movieName.trim().replaceAll(" +", " ").toLowerCase();
+	}
 }

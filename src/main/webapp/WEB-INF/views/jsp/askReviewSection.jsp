@@ -1,10 +1,10 @@
 <div id="askReview" class="container-fluid">
 	<form action="/reviewWebApp/submit" method="Get">
 		<div class="form-group">
-			<label>Submit Review:</label> <br> <input type="text"
-				id="rating" name="rating" placeholder="rating">
+			<label>Submit Review:</label> <br> <input type="number" min="0"
+				max="5" id="rating" name="rating" placeholder="rating" required> <br>
 			<textarea class="form-control" rows="5" id="review"
-				name="reviewStatement"></textarea>
+				name="reviewStatement" required></textarea>
 		</div>
 		<c:choose>
 			<c:when test="${isNewReviewer == false }">

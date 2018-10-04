@@ -35,26 +35,34 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ModelAndView search(HttpServletRequest request, HttpServletResponse response) throws MovieReviewException {
+	public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName(VIEW_NAME);
-		String movieName = request.getParameter("searchQuery");
+		String movieName = request.getParameter(MovieReviewConstants.SEARCH_ATTRIBUTE);
 		modelAndView.addObject(MovieReviewConstants.MOVIE_ATTRIBUTE, movieDBAPIHelper.retrieve(movieName));
 		modelAndView.addObject(MovieReviewConstants.USER_NAME_ATTRIBUTE, MovieReviewConstants.USER_NAME);
-		modelAndView.addObject("isNewReviewer",
-				!movieDBAPIHelper.hasUserAlreadyReviewed(MovieReviewConstants.USER_NAME, movieName));
+		try {
+			modelAndView.addObject(MovieReviewConstants.IS_NEW_REVIEWER_ATTRIBUTE,
+					!movieDBAPIHelper.hasUserAlreadyReviewed(MovieReviewConstants.USER_NAME, movieName));
+		} catch (MovieReviewException e) {
+			// TODO perform action in case of controller exception
+		}
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/submit", method = RequestMethod.GET)
-	public ModelAndView submit(HttpServletRequest request, HttpServletResponse response) throws MovieReviewException {
+	public ModelAndView submit(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		String movieName = request.getParameter(MovieReviewConstants.MOVIE_NAME_ATTRIBUTE);
 		Integer rating = Integer.parseInt(request.getParameter(MovieReviewConstants.RATING_ATTRIBUTE));
 		String reviewStatement = request.getParameter(MovieReviewConstants.REVIEW_STATEMENT_ATTRIBUTE);
-		movieDBAPIHelper.update(movieName, rating, reviewStatement, MovieReviewConstants.USER_NAME);
-		if (request.getParameter("isNewReviewer").equals("false")) {
-			modelAndView.addObject("alertStatus", true);
+		try {
+			movieDBAPIHelper.update(movieName, rating, reviewStatement, MovieReviewConstants.USER_NAME);
+		} catch (MovieReviewException e) {
+			System.out.println("here");
+		}
+		if (request.getParameter(MovieReviewConstants.IS_NEW_REVIEWER_ATTRIBUTE).equals("false")) {
+			modelAndView.addObject(MovieReviewConstants.ALERT_ATTRIBUTE, true);
 		}
 		modelAndView.setViewName(VIEW_NAME);
 		return modelAndView;

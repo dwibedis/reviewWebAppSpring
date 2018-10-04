@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.review.model;
 
 import java.util.Arrays;
@@ -11,17 +8,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author satyad
- *
- */
 public class MovieTest {
 
 	private Movie movie;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
 	public void setUp() throws Exception {
 		movie = new Movie();
@@ -32,9 +22,6 @@ public class MovieTest {
 		movie = null;
 	}
 
-	/**
-	 * Test method for {@link com.review.model.Movie#Movie()}.
-	 */
 	@Test
 	public final void testMovie() {
 		Movie movieTest = new Movie();
@@ -47,10 +34,6 @@ public class MovieTest {
 		new Movie(null, null);
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.review.model.Movie#Movie(java.lang.String, java.util.List)}.
-	 */
 	@Test
 	public final void testMovieStringListOfReview() {
 		Movie movieTest = new Movie("testMovie", getSampleReviews());
@@ -65,19 +48,12 @@ public class MovieTest {
 		return Arrays.asList(new Review("testSource", 0, "test Review Statement"));
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.review.model.Movie#setMovieName(java.lang.String)}.
-	 */
 	@Test
 	public final void testSetMovieName() {
 		movie.setMovieName("testMovie");
 		Assert.assertEquals("testMovie", movie.getMovieName());
 	}
 
-	/**
-	 * Test method for {@link com.review.model.Movie#setReviews(java.util.List)}.
-	 */
 	@Test
 	public final void testSetReviews() {
 		movie.setReviews(getSampleReviews());
