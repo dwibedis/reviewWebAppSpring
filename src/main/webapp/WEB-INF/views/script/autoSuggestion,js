@@ -1,0 +1,7 @@
+$(document).ready(function() {
+	console.log("here");
+	$("#searchQuery").autocomplete ({
+		source : "reviewWebApp/getMovieNamesList",
+		getValue : "getMovieNamesList"
+	});
+});

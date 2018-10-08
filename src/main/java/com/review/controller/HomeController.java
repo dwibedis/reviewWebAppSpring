@@ -38,15 +38,9 @@ public class HomeController {
 	public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName(VIEW_NAME);
-		String movieName = request.getParameter(MovieReviewConstants.SEARCH_ATTRIBUTE);
-		modelAndView.addObject(MovieReviewConstants.MOVIE_ATTRIBUTE, movieDBAPIHelper.retrieve(movieName));
+		String movieForQuery = request.getParameter(MovieReviewConstants.SEARCH_ATTRIBUTE);
+		modelAndView.addObject(MovieReviewConstants.MOVIE_ATTRIBUTE, movieDBAPIHelper.retrieve(movieForQuery));
 		modelAndView.addObject(MovieReviewConstants.USER_NAME_ATTRIBUTE, MovieReviewConstants.USER_NAME);
-		try {
-			modelAndView.addObject(MovieReviewConstants.IS_NEW_REVIEWER_ATTRIBUTE,
-					!movieDBAPIHelper.hasUserAlreadyReviewed(MovieReviewConstants.USER_NAME, movieName));
-		} catch (MovieReviewException e) {
-			// TODO perform action in case of controller exception
-		}
 		return modelAndView;
 	}
 
@@ -54,10 +48,11 @@ public class HomeController {
 	public ModelAndView submit(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		String movieName = request.getParameter(MovieReviewConstants.MOVIE_NAME_ATTRIBUTE);
+		String akaMovieTitle = request.getParameter(MovieReviewConstants.AKA_MOVIE_TITLE_ATTRIBUTE);
 		Integer rating = Integer.parseInt(request.getParameter(MovieReviewConstants.RATING_ATTRIBUTE));
 		String reviewStatement = request.getParameter(MovieReviewConstants.REVIEW_STATEMENT_ATTRIBUTE);
 		try {
-			movieDBAPIHelper.update(movieName, rating, reviewStatement, MovieReviewConstants.USER_NAME);
+			movieDBAPIHelper.update(movieName, akaMovieTitle, rating, reviewStatement, MovieReviewConstants.USER_NAME);
 		} catch (MovieReviewException e) {
 			System.out.println("here");
 		}

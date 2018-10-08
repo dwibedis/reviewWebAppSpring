@@ -20,6 +20,7 @@ public class MovieReviewConstants {
 	public static final String IS_NEW_REVIEWER_ATTRIBUTE = "isNewReviewer";
 	public static final String ALERT_ATTRIBUTE = "alertStatus";
 	public static final String SEARCH_ATTRIBUTE = "searchQuery";
+	public static final String AKA_MOVIE_TITLE_ATTRIBUTE = "akaMovieName";
 
 	// query statements
 	public static final String SELECTION_QUERY_WITH_MOVIE_ID = "Select * from movie_review_db where movieID = %d order by rating desc";
@@ -27,6 +28,7 @@ public class MovieReviewConstants {
 	public static final String QUERY_LIST_COUNT_REVIEWER_BY_NAME_AND_MOVIE = "Select count(sourceName) from movie_review_db where movieID = %d and sourceName = '%s'";
 	public static final String UPDATE_QUERY_WITH_ALL_VALUES = "Update movie_review_db SET rating = %d, reviewStatement = '%s' WHERE movieID = %d and sourceName = '%s'";
 	public static final String DELETE_ROW = "DELETE from movie_review_db where movieID = %d and sourceName = '%s'";
+	public static final String GET_MOVIES = "Select distinct movieName from movie_review_db";
 
 	// regular expressions
 	public static final String SPACE = "\\s+";

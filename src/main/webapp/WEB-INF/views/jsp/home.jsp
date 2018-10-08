@@ -13,6 +13,12 @@
 <title>MOVIE REVIEW</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8" />
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<%@include file="./headerSection.jsp"%>
@@ -27,8 +33,8 @@
 				<c:forEach items="${movie.reviews }" var="review">
 					<div class="boxed">
 						<h2>${review.sourceName }</h2>
-						<c:forEach var = "i" begin = "1" end = "${review.ratingInStars }">
-							<p class = "glyphicon glyphicon-star"></p>
+						<c:forEach var="i" begin="1" end="${review.ratingInStars }">
+							<p class="glyphicon glyphicon-star"></p>
 						</c:forEach>
 						<h3>${review.reviewStatement}</h3>
 					</div>
