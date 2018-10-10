@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.review.constants.MovieReviewConstants;
-import com.review.dbapi.MovieDB;
-import com.review.dbapi.MovieDBAPI;
+import com.review.repositories.MovieReviewDBImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { com.review.utility.MovieDBAPIHelper.class, com.review.dbapi.MovieDBAPI.class,
+@ContextConfiguration(classes = { com.review.service.MovieDBAPIImpl.class, com.review.repositories.MovieReviewDBImpl.class,
 		com.review.controller.HomeController.class })
 @TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class })
 @WebAppConfiguration
@@ -55,7 +53,7 @@ public class HomeControllerTest {
 
 	@AfterClass
 	public static void tearDown() {
-		new MovieDBAPI().delete(TEST_MOVIE_NAME.hashCode(), MovieReviewConstants.USER_NAME);
+		new MovieReviewDBImpl().delete(TEST_MOVIE_NAME.hashCode(), MovieReviewConstants.USER_NAME);
 	}
 
 	@Test

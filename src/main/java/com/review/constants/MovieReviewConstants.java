@@ -31,7 +31,10 @@ public class MovieReviewConstants {
 	public static final String GET_MOVIES = "Select distinct movieName from movie_review_db";
 
 	// regular expressions
-	public static final String SPACE = "\\s+";
+	public static final String MULTI_SPACE = "\\s+";
+	public static final String SINGLE_QUOTE = "'";
+	public static final String DOUBLE_QUOTE = "''";
+	public static final String SINGLE_SPACE = " ";
 
 	private MovieReviewConstants() {
 		throw new IllegalStateException("Invalid Declaration Of Constants Class");

@@ -14,9 +14,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.review.model.Review;
+import com.review.repositories.MovieReviewDBImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = com.review.dbapi.MovieDBAPI.class)
+@ContextConfiguration(classes = com.review.repositories.MovieReviewDBImpl.class)
 @TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class })
 @WebAppConfiguration
 public class MovieDBAPITest {
@@ -26,11 +27,11 @@ public class MovieDBAPITest {
 	private static final int TEST_RATING = 4;
 	private static final String TEST_REVIEW_STATEMENT = "test Review Statement";
 
-	private static MovieDBAPI movieDBAPI = new MovieDBAPI();
+	private static MovieReviewDBImpl movieDBAPI = new MovieReviewDBImpl();
 
 	@BeforeClass
 	public static void setUp() {
-		movieDBAPI.insert(TEST_MOVIE_NAME.hashCode(), TEST_USER, TEST_RATING, TEST_REVIEW_STATEMENT);
+		movieDBAPI.create(TEST_MOVIE_NAME.hashCode(), TEST_USER, TEST_RATING, TEST_REVIEW_STATEMENT);
 	}
 
 	@AfterClass
@@ -64,7 +65,7 @@ public class MovieDBAPITest {
 
 	@Test
 	public final void testInsert() {
-		movieDBAPI.insert("insertMovieTest".hashCode(), "testUserInsert", 2, "test Review Statement For InsertTest");
+		movieDBAPI.create("insertMovieTest".hashCode(), "testUserInsert", 2, "test Review Statement For InsertTest");
 		List<Review> reviews = movieDBAPI.readReviews("insertMovieTest".hashCode());
 		Assert.assertEquals("testUserInsert", reviews.get(0).getSourceName());
 		Assert.assertEquals(2, reviews.get(0).getRatingInStars());
@@ -74,7 +75,7 @@ public class MovieDBAPITest {
 
 	@Test
 	public final void testDelete() {
-		movieDBAPI.insert("deleteMovieTest".hashCode(), "testUserDelete", 2, "test Review Statement for Delete");
+		movieDBAPI.create("deleteMovieTest".hashCode(), "testUserDelete", 2, "test Review Statement for Delete");
 		movieDBAPI.delete("deleteMovieTest".hashCode(), "testUserDelete");
 		List<Review> reviews = movieDBAPI.readReviews("insertMovieTest".hashCode());
 		Assert.assertEquals(0, reviews.size());

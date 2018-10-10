@@ -20,16 +20,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.review.dbapi.MovieDB;
 import com.review.exception.MovieReviewException;
 import com.review.model.Movie;
 import com.review.model.Review;
+import com.review.repositories.MovieReviewDB;
+import com.review.service.MovieDBAPIImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { com.review.utility.MovieDBAPIHelper.class, com.review.dbapi.MovieDBAPI.class })
+@ContextConfiguration(classes = { com.review.service.MovieDBAPIImpl.class, com.review.repositories.MovieReviewDBImpl.class })
 @TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class })
 @WebAppConfiguration
-public class MovieDBAPIHelperTest {
+public class MovieDBHelperImplTest {
 
 	private static final String TEST_MOVIE_NAME = "testMovieName";
 	private static final String TEST_REVIEW_STATEMENT = "test Review Statement";
@@ -37,14 +38,14 @@ public class MovieDBAPIHelperTest {
 	private static final int TEST_RATING = 4;
 
 	@Mock
-	private MovieDB movieDB;
+	private MovieReviewDB movieDB;
 
 	@Mock
 	private Review review;
 
 	@InjectMocks
 	@Autowired
-	private MovieDBAPIHelper movieDBAPIHelper;
+	private MovieDBAPIImpl movieDBAPIHelper;
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -101,7 +102,7 @@ public class MovieDBAPIHelperTest {
 		Mockito.when(movieDB.readCount("randomUser", TEST_MOVIE_NAME.hashCode())).thenReturn(0);
 
 		movieDBAPIHelper.update(TEST_MOVIE_NAME, TEST_RATING, TEST_REVIEW_STATEMENT, "randomUser");
-		Mockito.verify(movieDB, Mockito.times(1)).insert(TEST_MOVIE_NAME.hashCode(), "randomUser", TEST_RATING,
+		Mockito.verify(movieDB, Mockito.times(1)).create(TEST_MOVIE_NAME.hashCode(), "randomUser", TEST_RATING,
 				TEST_REVIEW_STATEMENT);
 		Mockito.verify(movieDB, Mockito.times(0)).update(TEST_MOVIE_NAME.hashCode(), "randomUser", TEST_RATING,
 				TEST_REVIEW_STATEMENT);
@@ -111,7 +112,7 @@ public class MovieDBAPIHelperTest {
 	public final void testUpdateUpdate() throws SQLException, MovieReviewException {
 
 		movieDBAPIHelper.update(TEST_MOVIE_NAME, 4, TEST_REVIEW_STATEMENT, TEST_USER);
-		Mockito.verify(movieDB, Mockito.times(0)).insert(TEST_MOVIE_NAME.hashCode(), TEST_USER, TEST_RATING,
+		Mockito.verify(movieDB, Mockito.times(0)).create(TEST_MOVIE_NAME.hashCode(), TEST_USER, TEST_RATING,
 				TEST_REVIEW_STATEMENT);
 		Mockito.verify(movieDB, Mockito.times(1)).update(TEST_MOVIE_NAME.hashCode(), TEST_USER, TEST_RATING,
 				TEST_REVIEW_STATEMENT);

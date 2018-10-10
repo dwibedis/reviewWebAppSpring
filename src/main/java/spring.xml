@@ -16,4 +16,12 @@
 		<property name = "initialSize" value = "2"/>
 		<property name = "maxActive" value = "5" />
 	</bean>
+	<bean id = "userDataSource" class = "org.apache.commons.dbcp.BasicDataSource">
+		<property name = "driverClassName" value = "org.postgresql.Driver"/>
+		<property name = "url" value = "jdbc:postgresql://localhost/UserDetails"/>
+		<property name = "username" value = "postgres"/>
+		<property name = "password" value = "mindfire"/>
+		<property name = "initialSize" value = "2"/>
+		<property name = "maxActive" value = "5" />
+	</bean>
 </beans>

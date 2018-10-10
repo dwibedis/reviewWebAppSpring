@@ -1,4 +1,4 @@
-package com.review.dbapi;
+package com.review.repositories;
 
 import java.util.List;
 import java.util.Map;
@@ -10,8 +10,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Delas with valid_movie_names_db.
+ * @author satyad
+ *
+ */
 @Repository
-public class MovieNamesDBAPI implements MovieNamesDB {
+public class MovieNamesDBImpl implements MovieNamesDB {
 
 	private static final String DATASOURCE_BEAN_NAME = "dataSource";
 	private static final String BEAN_CONFIG_FILE = "spring.xml";
@@ -24,7 +29,7 @@ public class MovieNamesDBAPI implements MovieNamesDB {
 	}
 
 	public static void setDataSource(DataSource dataSource) {
-		MovieNamesDBAPI.dataSource = dataSource;
+		MovieNamesDBImpl.dataSource = dataSource;
 	}
 
 	static {
@@ -34,13 +39,13 @@ public class MovieNamesDBAPI implements MovieNamesDB {
 	}
 
 	public List<Map<String, Object>> getMovieNames(String query) {
-		String queryStatement = String.format("SELECT movieName FROM movie_names_db WHERE movieName LIKE '%s%%'",
+		String queryStatement = String.format("SELECT movieName FROM valid_movie_names_db WHERE movieName LIKE '%s%%'",
 				query);
 		return jdbcTemplate.queryForList(queryStatement);
 	}
 
-	public void addMovieName(String movieName) {
-		String query = String.format("Insert into movie_names_db values ('%s')", movieName);
+	public void insert(String movieName) {
+		String query = String.format("Insert into valid_movie_names_db values ('%s')", movieName.replaceAll("'", "''"));
 		jdbcTemplate.update(query);
 	}
 

@@ -1,4 +1,4 @@
-package com.review.dbapi;
+package com.review.repositories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,16 +13,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.review.constants.MovieReviewConstants;
+import com.review.model.Model;
+import com.review.model.Movie;
 import com.review.model.Review;
 
 /**
- * The Repository class interacting with DB.
+ * The Repository class interacting with movie_review_db table.
  * 
  * @author satyad
  *
  */
 @Repository
-public class MovieDBAPI implements MovieDB {
+public class MovieReviewDBImpl implements MovieReviewDB {
 
 	private static final String BEAN_CONFIG_FILE = "spring.xml";
 	private static final String DATASOURCE_BEAN_NAME = "dataSource";
@@ -38,7 +40,7 @@ public class MovieDBAPI implements MovieDB {
 	}
 
 	public static void setDataSource(DataSource dataSource) {
-		MovieDBAPI.dataSource = dataSource;
+		MovieReviewDBImpl.dataSource = dataSource;
 	}
 
 	static {
@@ -71,7 +73,7 @@ public class MovieDBAPI implements MovieDB {
 		jdbcTemplate.update(query);
 	}
 
-	public void insert(int id, String userName, int rating, String reviewStatement) {
+	public void create(int id, String userName, int rating, String reviewStatement) {
 		String query = String.format(MovieReviewConstants.INSERT_QUERY_WITH_ALL_VALUES, id, userName, rating,
 				reviewStatement);
 		jdbcTemplate.update(query);
@@ -81,5 +83,4 @@ public class MovieDBAPI implements MovieDB {
 		String query = String.format(MovieReviewConstants.DELETE_ROW, id, userName);
 		jdbcTemplate.update(query);
 	}
-
 }

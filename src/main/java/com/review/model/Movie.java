@@ -9,33 +9,33 @@ import lombok.NonNull;
  * @author satyad
  *
  */
-public class Movie {
+public class Movie implements Model {
 	private String movieName;
-	private List<Review> reviews ;
+	private List<Review> reviews;
 
-	public Movie() {
-		this.movieName = null;
-		this.reviews = null;
-	}
-
-	public Movie(@NonNull String name,@NonNull List<Review> reviewsArg) {
-		this.movieName = name;
-		this.reviews = reviewsArg;
+	public String getMovieName() {
+		return movieName;
 	}
 
 	public void setMovieName(String movieName) {
 		this.movieName = movieName;
 	}
 
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
 
-	public String getMovieName() {
-		return movieName;
+	public Movie(@NonNull String movieName, @NonNull List<Review> reviews) {
+		this.movieName = movieName;
+		this.reviews = reviews;
 	}
-	
-	public List<Review> getReviews() {
-		return reviews;
+
+	public Movie() {
+		this.movieName = null;
+		this.reviews = null;
 	}
 }

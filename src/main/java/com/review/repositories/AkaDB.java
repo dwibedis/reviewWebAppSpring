@@ -1,4 +1,4 @@
-package com.review.dbapi;
+package com.review.repositories;
 
 import com.review.exception.DBAccessException;
 import com.review.exception.MovieReviewException;
@@ -15,7 +15,7 @@ public interface AkaDB {
 	 * @param id
 	 * @return
 	 */
-	public int getMovieID(int id) throws DBAccessException;
+	public int getMovieID(int id) ;
 
 	/**
 	 * 

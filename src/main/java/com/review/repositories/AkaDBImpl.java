@@ -1,4 +1,4 @@
-package com.review.dbapi;
+package com.review.repositories;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,8 +18,13 @@ import org.springframework.stereotype.Repository;
 import com.review.exception.DBAccessException;
 import com.review.exception.MovieReviewException;
 
+/**
+ * Deals with aka_db.
+ * @author satyad
+ *
+ */
 @Repository
-public class AkaDBAPI implements AkaDB {
+public class AkaDBImpl implements AkaDB {
 
 	private static DataSource dataSource;
 	private static JdbcTemplate jdbcTemplate;
@@ -29,7 +34,7 @@ public class AkaDBAPI implements AkaDB {
 	}
 
 	public static void setDataSource(DataSource dataSource) {
-		AkaDBAPI.dataSource = dataSource;
+		AkaDBImpl.dataSource = dataSource;
 	}
 
 	static {
@@ -38,12 +43,12 @@ public class AkaDBAPI implements AkaDB {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public int getMovieID(int id) throws DBAccessException {
+	public int getMovieID(int id) {
 		String query = String.format("select movieid from aka_db where aka_title_id = %d", id);
 		try {
 			return jdbcTemplate.queryForInt(query);
 		} catch (EmptyResultDataAccessException d) {
-			throw new DBAccessException("Exception while accessing aka_db db");
+			return 0;
 		}
 	}
 

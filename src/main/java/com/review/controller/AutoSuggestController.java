@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.review.utility.MovieDBHelper;
+import com.review.service.MovieDBAPI;
 
+/**
+ * Controller utility for auto suggestion.
+ * @author satyad
+ *
+ */
 @Controller
 public class AutoSuggestController {
 
 	@Autowired
-	private MovieDBHelper movieDBHelper;
+	private MovieDBAPI movieDBHelper;
 
 	@RequestMapping(value = "/getMovieNamesList", method = RequestMethod.GET)
 	public @ResponseBody List<String> getMoviesList(@RequestParam("term") String query) {

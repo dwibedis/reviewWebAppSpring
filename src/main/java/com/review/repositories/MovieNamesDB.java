@@ -1,4 +1,4 @@
-package com.review.dbapi;
+package com.review.repositories;
 
 import java.util.List;
 import java.util.Map;
@@ -21,5 +21,5 @@ public interface MovieNamesDB {
 	 * 
 	 * @param movieName
 	 */
-	public void addMovieName(String movieName);
+	public void insert(String movieName);
 }

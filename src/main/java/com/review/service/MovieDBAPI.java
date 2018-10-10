@@ -1,4 +1,4 @@
-package com.review.utility;
+package com.review.service;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.review.model.Movie;
  * @author satyad
  *
  */
-public interface MovieDBHelper {
+public interface MovieDBAPI {
 
 	/**
 	 * Method is used to get the movie details from DB by movie name.
@@ -19,16 +19,7 @@ public interface MovieDBHelper {
 	 * @param movieForQuery name of the movie.
 	 * @return the movie object containing details from DB.
 	 */
-	public Movie retrieve(String movieForQuery);
-
-	/**
-	 * Method is used to check if an user has already reviewed the provided movie.
-	 * 
-	 * @param userName  name of the user or source.
-	 * @param movieName the name of movie.
-	 * @return status if the user/source has already reviewed the movie or not.
-	 */
-	public boolean hasUserAlreadyReviewed(String userName, String movieName) throws MovieReviewException;
+	public Movie retrieve(String movieForQuery) throws MovieReviewException;
 
 	/**
 	 * Method is used to update the data base with new entry.
